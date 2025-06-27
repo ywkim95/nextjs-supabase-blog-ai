@@ -30,13 +30,13 @@ export default async function PostPage({ params }: PostPageProps) {
   const TagsSection = () => (
     <>
       {postTags.length > 0 && (
-        <div className="py-4 border-y border-gray-200">
+        <div className="py-4 border-y border-gray-200 dark:border-gray-700">
           <div className="flex items-center flex-wrap gap-2">
-            <TagIcon className="w-5 h-5 text-gray-500" />
+            <TagIcon className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             {postTags.map((tag: string, index: number) => (
               <span
                 key={index}
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800"
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800 dark:bg-dark-primary dark:text-dark-background"
               >
                 {tag}
               </span>
