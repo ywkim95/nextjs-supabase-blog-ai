@@ -108,12 +108,14 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
               className="w-full p-2 border border-gray-300 rounded-md focus:ring-orange-500 focus:border-orange-500"
               rows={3}
             />
-            <button
-              onClick={handleAddComment}
-              className="mt-2 px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700"
-            >
-              Post Comment
-            </button>
+            <div className="mt-2 flex justify-end">
+              <button
+                onClick={handleAddComment}
+                className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700"
+              >
+                Post Comment
+              </button>
+            </div>
           </div>
         )}
 
