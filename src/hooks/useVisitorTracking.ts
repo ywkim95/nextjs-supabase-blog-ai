@@ -45,23 +45,18 @@ export function useVisitorTracking() {
         }
 
         // Get today's visitor count
-        const { data: dailyCount, error: dailyError } = await supabase
+        const { data: dailyCount } = await supabase
           .rpc('get_daily_visitor_count')
 
         // Get total unique visitors
-        const { data: totalCount, error: totalError } = await supabase
+        const { data: totalCount } = await supabase
           .rpc('get_total_visitor_count')
-
-        console.log('Visitor tracking results:')
-        console.log('Daily count:', dailyCount, 'Error:', dailyError)
-        console.log('Total count:', totalCount, 'Error:', totalError)
 
         setDailyVisitors(dailyCount || 0)
         setTotalVisitors(totalCount || 0)
         
       } catch (error) {
         console.error('Error tracking visitor:', error)
-        console.error('Full error details:', error)
         // Set default values on error
         setDailyVisitors(0)
         setTotalVisitors(0)
