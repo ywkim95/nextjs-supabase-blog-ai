@@ -5,30 +5,33 @@ import { createClient } from '@/lib/supabase/middleware'
 const intlMiddleware = createMiddleware({
   locales: ['en', 'ko'],
   defaultLocale: 'ko',
-  localePrefix: 'as-needed'
+  localePrefix: 'never' // URL에 locale을 표시하지 않음
 });
 
 export async function middleware(request: NextRequest) {
-  const { supabase, response: intlResponse } = createClient(request)
+  // next-intl 미들웨어를 먼저 적용합니다.
+  const response = intlMiddleware(request);
+
+  // Supabase 클라이언트를 생성합니다.
+  const { supabase } = createClient(request)
   const { data: { session } } = await supabase.auth.getSession()
 
   const { pathname } = request.nextUrl
 
-  // Protect dashboard routes
-  if (pathname.startsWith('/dashboard') || pathname.startsWith('/en/dashboard') || pathname.startsWith('/ko/dashboard')) {
+  // 대시보드 경로를 보호합니다.
+  if (pathname.startsWith('/dashboard')) {
     if (!session) {
-      // Redirect to login if not authenticated
+      // 인증되지 않은 경우 로그인 페이지로 리디렉션합니다.
       return NextResponse.redirect(new URL('/login', request.url))
     }
 
     if (session.user.email !== process.env.ADMIN_EMAIL) {
-      // Redirect to home if not an admin
+      // 관리자가 아닌 경우 홈 페이지로 리디렉션합니다.
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
 
-  // Apply next-intl middleware
-  return intlMiddleware(request);
+  return response
 }
 
 export const config = {
@@ -40,6 +43,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*),'
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }

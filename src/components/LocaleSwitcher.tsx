@@ -12,9 +12,8 @@ export default function LocaleSwitcher() {
   const [isOpen, setIsOpen] = useState(false);
 
   const onSelectChange = (nextLocale: string) => {
-    const newPath = pathname.replace(`/${locale}`, `/${nextLocale}`);
     startTransition(() => {
-      router.replace(newPath);
+      router.replace(pathname, { locale: nextLocale });
     });
     setIsOpen(false);
   };
