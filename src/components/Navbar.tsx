@@ -112,7 +112,6 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <ThemeSwitcher />
             {loading ? (
               <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
             ) : user ? (
@@ -191,6 +190,7 @@ export default function Navbar() {
                 Login
               </Link>
             )}
+            <ThemeSwitcher />
           </div>
         </div>
       </div>
