@@ -123,6 +123,26 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
           hr: () => (
             <hr className="my-8 border-gray-300 dark:border-gray-600" />
           ),
+          strong: ({ children }) => (
+            <strong className="font-bold text-gray-900 dark:text-dark-text">
+              {children}
+            </strong>
+          ),
+          b: ({ children }) => (
+            <b className="font-bold text-gray-900 dark:text-dark-text">
+              {children}
+            </b>
+          ),
+          em: ({ children }) => (
+            <em className="italic text-gray-800 dark:text-gray-200">
+              {children}
+            </em>
+          ),
+          i: ({ children }) => (
+            <i className="italic text-gray-800 dark:text-gray-200">
+              {children}
+            </i>
+          ),
         }}
       >
         {content}
