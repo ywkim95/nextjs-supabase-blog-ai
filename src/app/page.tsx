@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getRecentPosts, getPostsCount, getTagsCount } from '@/lib/services/post.service'
 import Layout from '@/components/Layout'
 import Link from 'next/link'
 import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils'
@@ -8,35 +9,9 @@ import VisitorStats from '@/components/VisitorStats'
 export default async function Home() {
   const supabase = await createClient()
 
-  // Get recent published posts
-  const { data: posts } = await supabase
-    .from('posts')
-    .select(`
-      *,
-      profiles (
-        username,
-        avatar_url
-      ),
-      post_tags (
-        tags (
-          name
-        )
-      )
-    `)
-    .eq('is_published', true)
-    .order('created_at', { ascending: false })
-    .limit(3)
-
-  // Get total posts count
-  const { count: totalPosts } = await supabase
-    .from('posts')
-    .select('*', { count: 'exact', head: true })
-    .eq('is_published', true)
-
-  // Get unique tags count
-  const { count: totalTags } = await supabase
-    .from('tags')
-    .select('*', { count: 'exact', head: true })
+  const posts = await getRecentPosts(3)
+  const totalPosts = await getPostsCount()
+  const totalTags = await getTagsCount()
 
   // Get user session
   const { data: { user } } = await supabase.auth.getUser()

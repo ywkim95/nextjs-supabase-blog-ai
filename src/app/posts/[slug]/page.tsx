@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { getPostBySlug, getCommentsByPostId } from '@/lib/services/post.service'
 import Layout from '@/components/Layout'
 import MarkdownRenderer from '@/components/MarkdownRenderer'
 import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils'
@@ -14,66 +14,13 @@ interface PostPageProps {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params
-  const supabase = await createClient()
-
-  // Try to find post by slug first, then by id
-  let { data: post } = await supabase
-    .from('posts')
-    .select(`
-      *,
-      profiles (
-        username,
-        avatar_url
-      ),
-      post_tags (
-        tags (
-          name
-        )
-      )
-    `)
-    .eq('slug', slug)
-    .eq('is_published', true)
-    .single()
-
-  // If not found by slug, try by id
-  if (!post) {
-    const { data: postById } = await supabase
-      .from('posts')
-      .select(`
-        *,
-        profiles (
-          username,
-          avatar_url
-        ),
-        post_tags (
-          tags (
-            name
-          )
-        )
-      `)
-      .eq('id', parseInt(slug))
-      .eq('is_published', true)
-      .single()
-
-    post = postById
-  }
+  const post = await getPostBySlug(slug)
 
   if (!post) {
     notFound()
   }
 
-  // Fetch comments
-  const { data: comments } = await supabase
-    .from('comments')
-    .select(`
-      *,
-      profiles (
-        username,
-        avatar_url
-      )
-    `)
-    .eq('post_id', post.id)
-    .order('created_at', { ascending: true })
+  const comments = await getCommentsByPostId(post.id)
 
   // Extract tags and calculate reading time
   const postTags = (post as any).post_tags?.map((pt: any) => pt.tags.name) || []

@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { getAllPosts } from "@/lib/services/post.service";
 import Layout from "@/components/Layout";
 import Link from "next/link";
 import {
@@ -10,30 +10,7 @@ import { ClockIcon, TagIcon } from "@heroicons/react/24/outline";
 import type { PostWithAuthor } from "@/lib/supabase/database.types";
 
 export default async function PostsPage() {
-  const supabase = await createClient();
-
-  const { data: posts, error } = await supabase
-    .from("posts")
-    .select(
-      `
-      *,
-      profiles (
-        username,
-        avatar_url
-      ),
-      post_tags (
-        tags (
-          name
-        )
-      )
-    `
-    )
-    .eq("is_published", true)
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error("Error fetching posts:", error);
-  }
+  const posts = await getAllPosts();
 
   return (
     <Layout>
