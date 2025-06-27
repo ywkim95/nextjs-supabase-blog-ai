@@ -9,7 +9,7 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-  const postTags = (post as any).post_tags?.map((pt: any) => pt.tags.name) || []
+  const postTags = post.post_tags?.map((pt) => pt.tags.name) || []
   const readingTime = post.content ? calculateReadingTime(post.content) : 1
 
   return (

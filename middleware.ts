@@ -14,7 +14,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
 
-    if (session.user.email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
+    if (session.user.email !== process.env.ADMIN_EMAIL) {
       // Redirect to home if not an admin
       return NextResponse.redirect(new URL('/', request.url))
     }

@@ -1,5 +1,5 @@
-// src/lib/services/post.service.ts
 import { createClient } from '@/lib/supabase/server'
+import type { PostWithAuthorAndTags } from './supabase/database.types'
 
 export async function getRecentPosts(limit = 3) {
   const supabase = await createClient()
@@ -9,8 +9,7 @@ export async function getRecentPosts(limit = 3) {
     .select(`
       *,
       profiles (
-        username,
-        avatar_url
+        *
       ),
       post_tags (
         tags (
@@ -30,7 +29,7 @@ export async function getRecentPosts(limit = 3) {
   return posts
 }
 
-export async function getAllPosts() {
+export async function getAllPosts(): Promise<PostWithAuthorAndTags[]> {
   const supabase = await createClient()
   const { data: posts, error } = await supabase
     .from("posts")
@@ -38,8 +37,7 @@ export async function getAllPosts() {
       `
       *,
       profiles (
-        username,
-        avatar_url
+        *
       ),
       post_tags (
         tags (
@@ -56,7 +54,7 @@ export async function getAllPosts() {
     return []
   }
 
-  return posts
+  return posts as PostWithAuthorAndTags[]
 }
 
 export async function getPostBySlug(slug: string) {
@@ -66,8 +64,7 @@ export async function getPostBySlug(slug: string) {
     .select(`
       *,
       profiles (
-        username,
-        avatar_url
+        *
       ),
       post_tags (
         tags (
