@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { toast } from 'react-hot-toast'
 import { addComment, updateComment, deleteComment } from '@/lib/services/comment.service'
+import { formatDate } from '@/lib/utils'
 import type { CommentWithAuthor, Profile } from '@/lib/supabase/database.types'
 
 interface CommentsSectionProps {
@@ -156,7 +157,7 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
                         {comment.profiles?.username}
                       </h3>
                       <span className="text-sm text-gray-500 dark:text-gray-400">
-                        {new Date(comment.created_at).toLocaleDateString()}
+                        {formatDate(comment.created_at)}
                       </span>
                     </div>
                     {user?.id === comment.author_id && (

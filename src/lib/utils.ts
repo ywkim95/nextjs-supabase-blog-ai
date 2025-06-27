@@ -55,9 +55,9 @@ export function createSlug(title: string): string {
  * @returns Formatted date string
  */
 export function formatDate(dateString: string): string {
-  return new Date(dateString).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}. ${month}. ${day}.`;
 }
