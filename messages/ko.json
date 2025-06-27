@@ -1,0 +1,26 @@
+{
+  "Navbar": {
+    "allPosts": "모든 글",
+    "writePost": "글쓰기",
+    "dashboard": "대시보드",
+    "profile": "프로필",
+    "signOut": "로그아웃",
+    "login": "로그인",
+    "signedInAs": "로그인 계정"
+  },
+  "LocaleSwitcher": {
+    "label": "언어 변경",
+    "en": "영어",
+    "ko": "한국어"
+  },
+  "LoginPage": {
+    "title": "관리자 로그인",
+    "emailLabel": "이메일 주소",
+    "passwordLabel": "비밀번호",
+    "buttonText": "로그인",
+    "signingInText": "로그인 중...",
+    "notAdminError": "관리자 계정이 아닙니다.",
+    "unexpectedError": "예상치 못한 오류가 발생했습니다.",
+    "loginSuccess": "관리자로 성공적으로 로그인했습니다!"
+  }
+}

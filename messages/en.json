@@ -1,0 +1,26 @@
+{
+  "Navbar": {
+    "allPosts": "All Posts",
+    "writePost": "Write Post",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "login": "Login",
+    "signedInAs": "Signed in as"
+  },
+  "LocaleSwitcher": {
+    "label": "Change language",
+    "en": "English",
+    "ko": "Korean"
+  },
+  "LoginPage": {
+    "title": "Admin Login",
+    "emailLabel": "Email address",
+    "passwordLabel": "Password",
+    "buttonText": "Sign in",
+    "signingInText": "Signing in...",
+    "notAdminError": "Not an admin account.",
+    "unexpectedError": "An unexpected error occurred.",
+    "loginSuccess": "Successfully logged in as admin!"
+  }
+}
