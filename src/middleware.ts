@@ -1,37 +1,38 @@
-import createMiddleware from 'next-intl/middleware';
-import { type NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/middleware'
+import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
 
 const intlMiddleware = createMiddleware({
   locales: ['en', 'ko'],
   defaultLocale: 'ko',
-  localePrefix: 'never' // URL에 locale을 표시하지 않음
+  localePrefix: 'never'
 });
 
 export async function middleware(request: NextRequest) {
-  // next-intl 미들웨어를 먼저 적용합니다.
-  const response = intlMiddleware(request);
+  // First, let next-intl handle the request to determine the locale
+  const intlResponse = intlMiddleware(request);
 
-  // Supabase 클라이언트를 생성합니다.
-  const { supabase } = createClient(request)
-  const { data: { session } } = await supabase.auth.getSession()
+  // Now, handle Supabase session and auth checks
+  const { supabase, response } = createClient(request);
+  const { data: { session } } = await supabase.auth.getSession();
 
-  const { pathname } = request.nextUrl
+  const { pathname } = request.nextUrl;
 
-  // 대시보드 경로를 보호합니다.
+  // Protect dashboard routes
   if (pathname.startsWith('/dashboard')) {
     if (!session) {
-      // 인증되지 않은 경우 로그인 페이지로 리디렉션합니다.
-      return NextResponse.redirect(new URL('/login', request.url))
+      // Redirect to login if not authenticated
+      return NextResponse.redirect(new URL('/login', request.url));
     }
 
     if (session.user.email !== process.env.ADMIN_EMAIL) {
-      // 관리자가 아닌 경우 홈 페이지로 리디렉션합니다.
-      return NextResponse.redirect(new URL('/', request.url))
+      // Redirect to home if not an admin
+      return NextResponse.redirect(new URL('/', request.url));
     }
   }
 
-  return response
+  // If no auth redirects are needed, return the response from the intl middleware
+  return intlResponse;
 }
 
 export const config = {
@@ -43,6 +44,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
