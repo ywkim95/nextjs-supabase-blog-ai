@@ -6,8 +6,6 @@ import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useRef } from 'react'
 import { User } from '@supabase/supabase-js'
 import { toast } from 'react-hot-toast'
-import { useTranslations } from 'next-intl'
-import LocaleSwitcher from './LocaleSwitcher'
 import {
   ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
@@ -16,7 +14,6 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function Navbar() {
-  const t = useTranslations('Navbar')
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<{
     avatar_url: string | null
@@ -107,13 +104,12 @@ export default function Navbar() {
                 href="/posts"
                 className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
               >
-                {t('allPosts')}
+                All Posts
               </Link>
             </div>
           </div>
 
           <div className="flex items-center space-x-4">
-            <LocaleSwitcher />
             {loading ? (
               <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse" />
             ) : user ? (
@@ -124,7 +120,7 @@ export default function Navbar() {
                     className="hidden sm:inline-flex items-center bg-orange-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-700"
                   >
                     <PencilSquareIcon className="h-5 w-5 mr-2" />
-                    {t('writePost')}
+                    Write Post
                   </Link>
                   <div className="relative" ref={menuRef}>
                     <button
@@ -145,7 +141,7 @@ export default function Navbar() {
                     {isMenuOpen && (
                       <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10">
                         <div className="px-4 py-3">
-                          <p className="text-sm">{t('signedInAs')}</p>
+                          <p className="text-sm">Signed in as</p>
                           <p className="text-sm font-medium text-gray-900 truncate">
                             {profile?.username || user.email}
                           </p>
@@ -156,21 +152,21 @@ export default function Navbar() {
                           className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
                           <Cog6ToothIcon className="h-5 w-5 mr-2" />
-                          {t('dashboard')}
+                          Dashboard
                         </Link>
                         <Link
                           href="/profile"
                           className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
                           <UserCircleIcon className="h-5 w-5 mr-2" />
-                          {t('profile')}
+                          Profile
                         </Link>
                         <button
                           onClick={handleSignOut}
                           className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
                           <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
-                          {t('signOut')}
+                          Sign Out
                         </button>
                       </div>
                     )}
@@ -181,7 +177,7 @@ export default function Navbar() {
                   onClick={handleSignOut}
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  {t('signOut')}
+                  Sign Out
                 </button>
               )
             ) : (
@@ -189,7 +185,7 @@ export default function Navbar() {
                 href="/login"
                 className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
               >
-                {t('login')}
+                Login
               </Link>
             )}
           </div>
