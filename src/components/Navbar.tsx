@@ -9,6 +9,7 @@ import { toast } from 'react-hot-toast'
 
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const supabase = createClient()
@@ -17,6 +18,9 @@ export default function Navbar() {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
+      if (user) {
+        setIsAdmin(user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL)
+      }
       setLoading(false)
     }
 
@@ -25,6 +29,11 @@ export default function Navbar() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setUser(session?.user ?? null)
+        if (session?.user) {
+          setIsAdmin(session.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL)
+        } else {
+          setIsAdmin(false)
+        }
         setLoading(false)
       }
     )
@@ -59,23 +68,27 @@ export default function Navbar() {
               <div className="text-gray-500">Loading...</div>
             ) : user ? (
               <>
-                <Link
-                  href="/dashboard"
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-                >
-                  Dashboard
-                </Link>
+                {isAdmin && (
+                  <>
+                    <Link
+                      href="/dashboard"
+                      className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/dashboard/posts/new"
+                      className="bg-orange-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-700"
+                    >
+                      Write Post
+                    </Link>
+                  </>
+                )}
                 <Link
                   href="/profile"
                   className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Profile
-                </Link>
-                <Link
-                  href="/dashboard/posts/new"
-                  className="bg-orange-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-700"
-                >
-                  Write Post
                 </Link>
                 <button
                   onClick={handleSignOut}
