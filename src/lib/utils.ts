@@ -6,21 +6,26 @@
  * @param wordsPerMinute - Average reading speed (default: 200 words per minute)
  * @returns Estimated reading time in minutes
  */
-export function calculateReadingTime(text: string, wordsPerMinute: number = 200): number {
+export function calculateReadingTime(
+  text: string,
+  wordsPerMinute: number = 200
+): number {
   // Remove markdown syntax for more accurate word count
   const cleanText = text
-    .replace(/[#*`_\[\]]/g, '') // Remove markdown symbols
-    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove image markdown
-    .replace(/\[.*?\]\(.*?\)/g, '') // Remove link markdown
-    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-    .replace(/`.*?`/g, '') // Remove inline code
-    .trim()
+    .replace(/[#*`_\[\]]/g, "") // Remove markdown symbols
+    .replace(/!\[.*?\]\(.*?\)/g, "") // Remove image markdown
+    .replace(/\[.*?\]\(.*?\)/g, "") // Remove link markdown
+    .replace(/```[\s\S]*?```/g, "") // Remove code blocks
+    .replace(/`.*?`/g, "") // Remove inline code
+    .trim();
 
   // Count words (split by whitespace and filter empty strings)
-  const wordCount = cleanText.split(/\s+/).filter(word => word.length > 0).length
-  
+  const wordCount = cleanText
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
+
   // Calculate reading time in minutes (minimum 1 minute)
-  return Math.max(1, Math.ceil(wordCount / wordsPerMinute))
+  return Math.max(1, Math.ceil(wordCount / wordsPerMinute));
 }
 
 /**
@@ -30,9 +35,9 @@ export function calculateReadingTime(text: string, wordsPerMinute: number = 200)
  */
 export function formatReadingTime(minutes: number): string {
   if (minutes === 1) {
-    return '1분 읽기'
+    return "1분 읽기";
   }
-  return `${minutes}분 읽기`
+  return `${minutes}분 읽기`;
 }
 
 /**
@@ -43,10 +48,10 @@ export function formatReadingTime(minutes: number): string {
 export function createSlug(title: string): string {
   return title
     .toLowerCase()
-    .replace(/[^a-z0-9가-힣 -]/g, '') // Keep Korean characters
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
+    .replace(/[^a-z0-9가-힣 -]/g, "") // Keep Korean characters
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .trim();
 }
 
 /**
@@ -55,9 +60,9 @@ export function createSlug(title: string): string {
  * @returns Formatted date string
  */
 export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-  return `${year}. ${month}. ${day}.`;
+  return new Date(dateString).toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
