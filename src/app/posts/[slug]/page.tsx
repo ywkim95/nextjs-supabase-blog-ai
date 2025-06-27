@@ -50,18 +50,18 @@ export default async function PostPage({ params }: PostPageProps) {
   return (
     <Layout>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <article className="bg-white shadow rounded-lg overflow-hidden">
+        <article className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
           <div className="px-6 py-8">
             {/* Title First */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
               {post.title}
             </h1>
 
             {/* Author Info, Date, Reading Time */}
-            <div className="flex items-center justify-end mb-4 text-sm text-gray-500">
+            <div className="flex items-center justify-end mb-4 text-sm text-gray-500 dark:text-gray-400">
               <div className="flex items-center">
                 <div className="ml-4 text-right">
-                  <p className="text-base font-medium text-gray-900">
+                  <p className="text-base font-medium text-gray-900 dark:text-gray-200">
                     {post.profiles?.username}
                   </p>
                   <div className="flex items-center space-x-4">
@@ -73,8 +73,8 @@ export default async function PostPage({ params }: PostPageProps) {
                   </div>
                 </div>
                 <div className="flex-shrink-0 ml-4">
-                  <div className="h-12 w-12 rounded-full bg-orange-500 flex items-center justify-center">
-                    <span className="text-lg font-medium text-white">
+                  <div className="h-12 w-12 rounded-full bg-orange-500 dark:bg-dark-secondary flex items-center justify-center">
+                    <span className="text-lg font-medium text-white dark:text-dark-background">
                       {post.profiles?.username?.[0]?.toUpperCase() || 'U'}
                     </span>
                   </div>
@@ -85,11 +85,10 @@ export default async function PostPage({ params }: PostPageProps) {
             <TagsSection />
 
             {/* Content */}
-            <div className="mt-6">
+            <div className="mt-6 prose dark:prose-invert max-w-none">
               {post.content && (
                 <MarkdownRenderer 
                   content={post.content}
-                  className="text-gray-700"
                 />
               )}
             </div>

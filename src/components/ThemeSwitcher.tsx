@@ -39,7 +39,7 @@ export default function ThemeSwitcher() {
       <button
         aria-label="Toggle Theme"
         type="button"
-        className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+        className="p-2 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
         onClick={() => setIsOpen(!isOpen)}
       >
         {getIcon()}
