@@ -10,16 +10,20 @@ export const metadata: Metadata = {
   description: 'A modern blog built with Next.js and Supabase',
 }
 
+import { Providers } from './providers'
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        {children}
-        <Toaster position="top-right" />
+        <Providers>
+          {children}
+          <Toaster position="top-right" />
+        </Providers>
       </body>
     </html>
   )

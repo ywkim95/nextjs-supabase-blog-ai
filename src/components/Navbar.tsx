@@ -13,6 +13,8 @@ import {
   PencilSquareIcon,
 } from '@heroicons/react/24/outline'
 
+import ThemeSwitcher from './ThemeSwitcher'
+
 export default function Navbar() {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<{
@@ -92,17 +94,17 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white shadow-sm border-b">
+    <nav className="bg-white dark:bg-dark-background shadow-sm border-b dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-gray-900">
+            <Link href="/" className="text-xl font-bold text-gray-900 dark:text-dark-text">
               Blog
             </Link>
             <div className="ml-8 hidden sm:flex sm:space-x-4">
               <Link
                 href="/posts"
-                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 All Posts
               </Link>
@@ -110,8 +112,9 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-4">
+            <ThemeSwitcher />
             {loading ? (
-              <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse" />
+              <div className="h-8 w-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse" />
             ) : user ? (
               isAdmin ? (
                 <>
@@ -135,35 +138,35 @@ export default function Navbar() {
                           alt="User profile"
                         />
                       ) : (
-                        <UserCircleIcon className="h-8 w-8 text-gray-500" />
+                        <UserCircleIcon className="h-8 w-8 text-gray-500 dark:text-gray-400" />
                       )}
                     </button>
                     {isMenuOpen && (
-                      <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 z-10">
+                      <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
                         <div className="px-4 py-3">
-                          <p className="text-sm">Signed in as</p>
-                          <p className="text-sm font-medium text-gray-900 truncate">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Signed in as</p>
+                          <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
                             {profile?.username || user.email}
                           </p>
                         </div>
-                        <div className="border-t border-gray-100" />
+                        <div className="border-t border-gray-100 dark:border-gray-700" />
                         <Link
                           href="/dashboard"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <Cog6ToothIcon className="h-5 w-5 mr-2" />
                           Dashboard
                         </Link>
                         <Link
                           href="/profile"
-                          className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <UserCircleIcon className="h-5 w-5 mr-2" />
                           Profile
                         </Link>
                         <button
                           onClick={handleSignOut}
-                          className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                          className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
                           Sign Out
@@ -175,7 +178,7 @@ export default function Navbar() {
               ) : (
                 <button
                   onClick={handleSignOut}
-                  className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
                   Sign Out
                 </button>
@@ -183,7 +186,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
                 Login
               </Link>
