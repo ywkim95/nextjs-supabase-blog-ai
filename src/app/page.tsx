@@ -54,14 +54,6 @@ export default async function Home() {
             >
               모든 포스트 보기
             </Link>
-            {!user && (
-              <Link
-                href="/login"
-                className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-              >
-                로그인
-              </Link>
-            )}
           </div>
         </div>
 
@@ -92,14 +84,7 @@ export default async function Home() {
             <PencilIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">아직 포스트가 없습니다</h3>
             <p className="text-gray-500 mb-6">첫 번째 포스트를 작성해보세요!</p>
-            {!user ? (
-              <Link
-                href="/login"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
-              >
-                시작하기
-              </Link>
-            ) : (
+            {user && user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
               <Link
                 href="/dashboard/posts/new"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"

@@ -50,10 +50,7 @@ export default function Signup() {
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/login" className="font-medium text-orange-600 hover:text-orange-500">
-              sign in to your existing account
-            </Link>
+            Fill out the form to create a new account.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSignup}>
