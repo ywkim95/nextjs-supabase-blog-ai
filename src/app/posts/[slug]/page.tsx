@@ -5,6 +5,7 @@ import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils
 import { notFound } from 'next/navigation'
 import { ClockIcon, TagIcon } from '@heroicons/react/24/outline'
 import type { PostWithAuthor, CommentWithAuthor } from '@/lib/supabase/database.types'
+import CommentsSection from '@/components/CommentsSection'
 
 interface PostPageProps {
   params: Promise<{
@@ -88,45 +89,7 @@ export default async function PostPage({ params }: PostPageProps) {
           </div>
         </article>
 
-        {/* Comments Section */}
-        <div className="mt-8 bg-white shadow rounded-lg">
-          <div className="px-6 py-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">
-              Comments ({comments?.length || 0})
-            </h2>
-
-            {comments && comments.length > 0 ? (
-              <div className="space-y-6">
-                {comments.map((comment) => (
-                  <div key={comment.id} className="flex space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center">
-                        <span className="text-xs font-medium text-white">
-                          {comment.profiles?.username?.[0]?.toUpperCase() || 'U'}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2">
-                        <h3 className="text-sm font-medium text-gray-900">
-                          {comment.profiles?.username}
-                        </h3>
-                        <span className="text-sm text-gray-500">
-                          {new Date(comment.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-gray-700">
-                        {comment.content}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No comments yet. Be the first to comment!</p>
-            )}
-          </div>
-        </div>
+        <CommentsSection postId={post.id} initialComments={comments} />
       </div>
     </Layout>
   )
