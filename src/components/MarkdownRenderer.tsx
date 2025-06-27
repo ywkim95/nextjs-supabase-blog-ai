@@ -2,7 +2,6 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
-import 'highlight.js/styles/github.css'
 
 interface MarkdownRendererProps {
   content: string
@@ -18,32 +17,32 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
         components={{
           // Custom styling for different elements
           h1: ({ children }) => (
-            <h1 className="text-3xl font-bold text-gray-900 mb-6 mt-8 first:mt-0">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-dark-text mb-6 mt-8 first:mt-0">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4 mt-8 first:mt-0">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-dark-text mb-4 mt-8 first:mt-0">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-xl font-semibold text-gray-800 mb-3 mt-6">
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-3 mt-6">
               {children}
             </h3>
           ),
           p: ({ children }) => (
-            <p className="text-gray-700 mb-4 leading-relaxed">
+            <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
               {children}
             </p>
           ),
           ul: ({ children }) => (
-            <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700">
+            <ul className="list-disc list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300">
               {children}
             </ul>
           ),
           ol: ({ children }) => (
-            <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700">
+            <ol className="list-decimal list-inside mb-4 space-y-2 text-gray-700 dark:text-gray-300">
               {children}
             </ol>
           ),
@@ -51,7 +50,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
             <li className="leading-relaxed">{children}</li>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-4 border-orange-500 pl-4 py-2 mb-4 bg-gray-50 italic text-gray-600">
+            <blockquote className="border-l-4 border-orange-500 dark:border-dark-primary pl-4 py-2 mb-4 bg-gray-50 dark:bg-gray-700 italic text-gray-600 dark:text-gray-300">
               {children}
             </blockquote>
           ),
@@ -59,7 +58,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
             const match = /language-(\w+)/.exec(className || '')
             return !match ? (
               <code
-                className="bg-gray-100 text-gray-800 px-1 py-0.5 rounded text-sm font-mono"
+                className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-1 py-0.5 rounded text-sm font-mono"
                 {...props}
               >
                 {children}
@@ -81,7 +80,7 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
           a: ({ href, children }) => (
             <a 
               href={href} 
-              className="text-orange-600 hover:text-orange-800 underline"
+              className="text-orange-600 dark:text-dark-primary hover:text-orange-800 dark:hover:text-dark-accent underline"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -97,32 +96,32 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
           ),
           table: ({ children }) => (
             <div className="overflow-x-auto mb-4">
-              <table className="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600 border border-gray-300 dark:border-gray-600 rounded-lg">
                 {children}
               </table>
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-gray-50">{children}</thead>
+            <thead className="bg-gray-50 dark:bg-gray-700">{children}</thead>
           ),
           tbody: ({ children }) => (
-            <tbody className="bg-white divide-y divide-gray-200">{children}</tbody>
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-600">{children}</tbody>
           ),
           tr: ({ children }) => (
-            <tr className="hover:bg-gray-50">{children}</tr>
+            <tr className="hover:bg-gray-50 dark:hover:bg-gray-700">{children}</tr>
           ),
           th: ({ children }) => (
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
               {children}
             </td>
           ),
           hr: () => (
-            <hr className="my-8 border-gray-300" />
+            <hr className="my-8 border-gray-300 dark:border-gray-600" />
           ),
         }}
       >
