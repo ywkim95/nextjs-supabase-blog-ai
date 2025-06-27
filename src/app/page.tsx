@@ -22,14 +22,14 @@ export default async function Home() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-orange-100 mb-4">
-              <PencilIcon className="w-10 h-10 text-orange-600" />
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-orange-100 dark:bg-gray-800 mb-4">
+              <PencilIcon className="w-10 h-10 text-orange-600 dark:text-dark-primary" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
             개발자의 블로그
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
             기술, 개발, 그리고 일상의 이야기를 나누는 공간입니다. 
             마크다운으로 작성된 포스트들을 통해 지식과 경험을 공유합니다.
           </p>
@@ -37,12 +37,12 @@ export default async function Home() {
           {/* Stats */}
           <div className="flex justify-center space-x-8 mb-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">{totalPosts || 0}</div>
-              <div className="text-sm text-gray-500">포스트</div>
+              <div className="text-2xl font-bold text-orange-600 dark:text-dark-primary">{totalPosts || 0}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">포스트</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600">{totalTags || 0}</div>
-              <div className="text-sm text-gray-500">태그</div>
+              <div className="text-2xl font-bold text-orange-600 dark:text-dark-primary">{totalTags || 0}</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400">태그</div>
             </div>
             <VisitorStats />
           </div>
@@ -61,10 +61,10 @@ export default async function Home() {
         {posts && posts.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">최근 포스트</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-dark-text">최근 포스트</h2>
               <Link
                 href="/posts"
-                className="text-orange-600 hover:text-orange-800 font-medium"
+                className="text-orange-600 dark:text-dark-accent hover:text-orange-800 font-medium"
               >
                 전체 보기 →
               </Link>
@@ -80,10 +80,10 @@ export default async function Home() {
 
         {/* Empty state */}
         {(!posts || posts.length === 0) && (
-          <div className="text-center py-12 bg-white rounded-lg shadow">
+          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow">
             <PencilIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">아직 포스트가 없습니다</h3>
-            <p className="text-gray-500 mb-6">첫 번째 포스트를 작성해보세요!</p>
+            <h3 className="text-lg font-medium text-gray-900 dark:text-dark-text mb-2">아직 포스트가 없습니다</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">첫 번째 포스트를 작성해보세요!</p>
             {user && user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
               <Link
                 href="/dashboard/posts/new"
