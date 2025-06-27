@@ -6,8 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { User } from '@supabase/supabase-js'
 import { toast } from 'react-hot-toast'
 import { addComment, updateComment, deleteComment } from '@/lib/services/comment.service'
-import type { CommentWithAuthor } from '@/lib/supabase/database.types'
-import { useRouter } from 'next/navigation'
+import type { CommentWithAuthor, Profile } from '@/lib/supabase/database.types'
 
 interface CommentsSectionProps {
   postId: number
@@ -17,22 +16,30 @@ interface CommentsSectionProps {
 export default function CommentsSection({ postId, initialComments }: CommentsSectionProps) {
   const [comments, setComments] = useState(initialComments)
   const [user, setUser] = useState<User | null>(null)
+  const [profile, setProfile] = useState<Profile | null>(null)
   const [newComment, setNewComment] = useState('')
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
   const [editingContent, setEditingContent] = useState('')
   const supabase = createClient()
-  const router = useRouter()
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (session) {
+        setUser(session.user)
+        const { data: userProfile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .single()
+        setProfile(userProfile)
+      }
     }
-    getUser()
+    getSession()
   }, [supabase])
 
   const handleAddComment = async () => {
-    if (!user) {
+    if (!user || !profile) {
       toast.error('You must be logged in to comment.')
       return
     }
@@ -40,10 +47,15 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
 
     try {
       const newCommentData = await addComment(postId, user.id, newComment.trim())
-      // Since we don't have profile data on the new comment, we'll just refresh
-      toast.success('Comment added!')
+      
+      // Optimistically update the UI
+      const newCommentWithProfile: CommentWithAuthor = {
+        ...newCommentData,
+        profiles: profile
+      }
+      setComments([...comments, newCommentWithProfile])
       setNewComment('')
-      router.refresh()
+      toast.success('Comment added!')
     } catch (error) {
       toast.error('Failed to add comment.')
     }
@@ -53,11 +65,13 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
     if (!editingContent.trim()) return
 
     try {
-      await updateComment(commentId, editingContent.trim())
-      toast.success('Comment updated!')
+      const updatedComment = await updateComment(commentId, editingContent.trim())
+      
+      // Optimistically update the UI
+      setComments(comments.map(c => c.id === commentId ? { ...c, content: updatedComment.content } : c))
       setEditingCommentId(null)
       setEditingContent('')
-      router.refresh()
+      toast.success('Comment updated!')
     } catch (error) {
       toast.error('Failed to update comment.')
     }
@@ -68,8 +82,10 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
 
     try {
       await deleteComment(commentId)
+      
+      // Optimistically update the UI
+      setComments(comments.filter(c => c.id !== commentId))
       toast.success('Comment deleted!')
-      router.refresh()
     } catch (error) {
       toast.error('Failed to delete comment.')
     }
