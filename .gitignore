@@ -50,6 +50,7 @@ CLAUDE.md
 *.md
 # But do not ignore README.md
 !README.md
+!REFACTORING.md
 
 # SQL files
 *.sql
