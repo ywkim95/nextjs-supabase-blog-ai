@@ -1,25 +1,27 @@
 import { createClient } from '@/lib/supabase/server'
 import type { PostWithAuthorAndTags } from '@/lib/supabase/database.types'
 
+const POST_WITH_AUTHOR_AND_TAGS_QUERY = `
+  *,
+  profiles (
+    *
+  ),
+  post_tags (
+    post_id,
+    tag_id,
+    tags (
+      id,
+      name
+    )
+  )
+`
+
 export async function getRecentPosts(limit = 3) {
   const supabase = await createClient()
 
   const { data: posts, error } = await supabase
     .from('posts')
-    .select(`
-      *,
-      profiles (
-        *
-      ),
-      post_tags (
-        post_id,
-        tag_id,
-        tags (
-          id,
-          name
-        )
-      )
-    `)
+    .select(POST_WITH_AUTHOR_AND_TAGS_QUERY)
     .eq('is_published', true)
     .order('created_at', { ascending: false })
     .limit(limit)
@@ -36,22 +38,7 @@ export async function getAllPosts(): Promise<PostWithAuthorAndTags[]> {
   const supabase = await createClient()
   const { data: posts, error } = await supabase
     .from("posts")
-    .select(
-      `
-      *,
-      profiles (
-        *
-      ),
-      post_tags (
-        post_id,
-        tag_id,
-        tags (
-          id,
-          name
-        )
-      )
-    `
-    )
+    .select(POST_WITH_AUTHOR_AND_TAGS_QUERY)
     .eq("is_published", true)
     .order("created_at", { ascending: false });
 
@@ -67,20 +54,7 @@ export async function getPostBySlug(slug: string) {
   const supabase = await createClient()
   let { data: post } = await supabase
     .from('posts')
-    .select(`
-      *,
-      profiles (
-        *
-      ),
-      post_tags (
-        post_id,
-        tag_id,
-        tags (
-          id,
-          name
-        )
-      )
-    `)
+    .select(POST_WITH_AUTHOR_AND_TAGS_QUERY)
     .eq('slug', slug)
     .eq('is_published', true)
     .single()
@@ -89,20 +63,7 @@ export async function getPostBySlug(slug: string) {
   if (!post) {
     const { data: postById } = await supabase
       .from('posts')
-      .select(`
-        *,
-        profiles (
-          *
-        ),
-        post_tags (
-          post_id,
-          tag_id,
-          tags (
-            id,
-            name
-          )
-        )
-      `)
+      .select(POST_WITH_AUTHOR_AND_TAGS_QUERY)
       .eq('id', parseInt(slug))
       .eq('is_published', true)
       .single()
