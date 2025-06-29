@@ -45,7 +45,8 @@ export default function Login() {
         return
       }
     } catch (error) {
-      console.error('Admin check failed:', error)
+      // 보안을 위해 상세한 에러 정보는 클라이언트에 노출하지 않음
+      console.error('Admin check failed')
       toast.error(t('unexpectedError'))
       setLoading(false)
       return
@@ -99,7 +100,8 @@ export default function Login() {
         return
       }
     } catch (error) {
-      console.error('Admin check failed:', error)
+      // 보안을 위해 상세한 에러 정보는 클라이언트에 노출하지 않음
+      console.error('Admin check failed')
       toast.error(t('unexpectedError'))
       setLoading(false)
       return
