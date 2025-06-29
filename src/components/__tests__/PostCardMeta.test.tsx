@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react'
 import PostCardMeta from '../PostCardMeta'
 import { PostWithAuthorAndTags } from '@/lib/supabase/database.types'
+import * as utils from '@/lib/utils'
 
 // Mock utility functions
 jest.mock('@/lib/utils', () => ({
-  calculateReadingTime: () => 5,
+  calculateReadingTime: jest.fn(),
   formatReadingTime: (time: number) => `${time} min read`,
   formatDate: (date: string) => new Date(date).toLocaleDateString(),
 }))
+
+const mockedUtils = utils as jest.Mocked<typeof utils>
 
 describe('PostCardMeta', () => {
   const mockPost: PostWithAuthorAndTags = {
@@ -26,6 +29,10 @@ describe('PostCardMeta', () => {
     },
     post_tags: [],
   }
+
+  beforeEach(() => {
+    mockedUtils.calculateReadingTime.mockReturnValue(5)
+  })
 
   it('renders the author name', () => {
     render(<PostCardMeta post={mockPost} />)
@@ -69,5 +76,13 @@ describe('PostCardMeta', () => {
     const postWithoutProfile = { ...mockPost, profiles: null }
     render(<PostCardMeta post={postWithoutProfile as any} />)
     expect(screen.getByText('U')).toBeInTheDocument()
+  })
+
+  it('defaults to 1 min read when content is null', () => {
+    const postWithoutContent = { ...mockPost, content: null }
+    render(<PostCardMeta post={postWithoutContent as any} />)
+    // We are not mocking calculateReadingTime here, so the component's internal logic will be used.
+    // The formatReadingTime mock will receive 1.
+    expect(screen.getByText('1 min read')).toBeInTheDocument()
   })
 })
