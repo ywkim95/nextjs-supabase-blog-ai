@@ -1,7 +1,8 @@
 import { getAllPosts } from "@/lib/services/post.service";
-import PostCard from "@/components/PostCard";
-import Link from "next/link";
+import PostList from "@/components/PostList";
+import NoPosts from "@/components/NoPosts";
 import { getTranslations } from 'next-intl/server';
+import { PencilIcon } from '@heroicons/react/24/solid';
 
 interface PostsPageProps {
   params: Promise<{ locale: string }>
@@ -21,24 +22,18 @@ export default async function PostsPage({ params }: PostsPageProps) {
             <p className="mt-2 text-gray-600 dark:text-gray-400">{t('subtitle')}</p>
           </div>
 
-          import PostList from '@/components/PostList';
-...
           {posts && posts.length > 0 ? (
             <PostList posts={posts} />
           ) : (
-...
-            <div className="text-center py-12">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-dark-text mb-2">
-                {t('noPosts')}
-              </h3>
-              <p className="text-gray-500 dark:text-gray-400">{t('noPostsDescription')}</p>
-              <Link
-                href="/login"
-                className="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
-              >
-                {t('getStarted')}
-              </Link>
-            </div>
+            <NoPosts
+              icon={<PencilIcon className="h-12 w-12 text-gray-400" />}
+              title={t('noPosts')}
+              description={t('noPostsDescription')}
+              link={{
+                href: `/${locale}/login`,
+                text: t('getStarted'),
+              }}
+            />
           )}
         </div>
       </main>
