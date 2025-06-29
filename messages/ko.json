@@ -35,7 +35,7 @@
   "home": {
     "title": "개발자의 블로그",
     "subtitle": "기술, 개발, 그리고 일상의 이야기를 나누는 공간입니다. 마크다운으로 작성된 포스트들을 통해 지식과 경험을 공유합니다.",
-    "viewAllPosts": "모든 포스트 보기",
+    "viewAllPosts": "모든 포스�� 보기",
     "totalPosts": "총 포스트",
     "totalTags": "총 태그",
     "recentPosts": "최근 포스트",
@@ -52,6 +52,7 @@
   },
   "posts": {
     "title": "모든 포스트",
+    "subtitle": "최신 블로그 포스트를 확인해보세요",
     "searchPlaceholder": "포스트 검색...",
     "noResults": "검색 결과가 없습니다",
     "publishedOn": "게시일",
@@ -64,7 +65,10 @@
     "delete": "삭제",
     "publish": "게시",
     "unpublish": "게시 취소",
-    "draft": "초안"
+    "draft": "초안",
+    "noPosts": "아직 포스트가 없습니다",
+    "noPostsDescription": "가장 먼저 포스트를 작성해보세요!",
+    "getStarted": "시작하기"
   },
   "dashboard": {
     "title": "대시보드",

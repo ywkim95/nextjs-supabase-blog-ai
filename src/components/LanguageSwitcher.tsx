@@ -1,8 +1,8 @@
 'use client'
 
 import { useLocale, useTranslations } from 'next-intl'
-import { useRouter, usePathname } from 'next/navigation'
-import { useState, useRef, useEffect } from 'react'
+import { usePathname, useRouter } from 'next-intl/client'
+import { useState, useRef, useEffect, useTransition } from 'react'
 import { LanguageIcon } from '@heroicons/react/24/outline'
 
 const languages = [
@@ -17,6 +17,7 @@ export default function LanguageSwitcher() {
   const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -32,19 +33,10 @@ export default function LanguageSwitcher() {
   }, [])
 
   const switchLanguage = (newLocale: string) => {
-    if (newLocale === locale) {
-      setIsOpen(false)
-      return
-    }
-    
-    // Remove current locale from pathname and add new locale
-    const pathnameWithoutLocale = pathname.replace(/^\/(ko|en)/, '') || '/'
-    const newPath = `/${newLocale}${pathnameWithoutLocale}`
-    
     setIsOpen(false)
-    
-    // Use window.location for reliable language switching
-    window.location.href = newPath
+    startTransition(() => {
+      router.replace(pathname, { locale: newLocale })
+    })
   }
 
   const currentLanguage = languages.find(lang => lang.code === locale)
@@ -55,9 +47,11 @@ export default function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         aria-label={t('selectLanguage')}
+        disabled={isPending}
       >
         <LanguageIcon className="h-5 w-5" />
         <span className="hidden sm:block">{currentLanguage?.nativeName}</span>
+        {isPending && <span className="ml-2">...</span>}
       </button>
 
       {isOpen && (
@@ -73,6 +67,7 @@ export default function LanguageSwitcher() {
                     : 'text-gray-700 dark:text-gray-300'
                 }`}
                 role="menuitem"
+                disabled={isPending}
               >
                 <div className="flex items-center justify-between">
                   <span>{language.nativeName}</span>

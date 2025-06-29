@@ -1,19 +1,11 @@
 import { getRequestConfig } from 'next-intl/server'
 
-// Can be imported from a shared config
 export const locales = ['ko', 'en'] as const
+export type Locale = (typeof locales)[number]
 
 export default getRequestConfig(async ({ locale }) => {
-  // Validate and provide fallback for locale
-  if (!locale || !locales.includes(locale as any)) {
-    return {
-      locale: 'ko',
-      messages: (await import(`../messages/ko.json`)).default
-    }
-  }
-  
+  // Assumes that the middleware validates the locale
   return {
-    locale,
     messages: (await import(`../messages/${locale}.json`)).default
   }
 })
