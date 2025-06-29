@@ -1,11 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import { useEffect, useState, useRef } from 'react'
-import { User } from '@supabase/supabase-js'
-import { toast } from 'react-hot-toast'
+import { useRef, useState, useEffect } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import {
   ArrowRightOnRectangleIcon,
@@ -16,21 +12,14 @@ import {
 
 import ThemeSwitcher from './ThemeSwitcher'
 import LanguageSwitcher from './LanguageSwitcher'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function Navbar() {
   const t = useTranslations('common')
   const tAuth = useTranslations('auth')
   const locale = useLocale()
-  const [user, setUser] = useState<User | null>(null)
-  const [profile, setProfile] = useState<{
-    avatar_url: string | null
-    username: string | null
-  } | null>(null)
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const { user, profile, isAdmin, loading, handleSignOut } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const router = useRouter()
-  const supabase = createClient()
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -44,59 +33,6 @@ export default function Navbar() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
-
-  useEffect(() => {
-    const fetchUserAndProfile = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      setUser(user)
-
-      if (user) {
-        setIsAdmin(user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL)
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('avatar_url, username')
-          .eq('id', user.id)
-          .single()
-        setProfile(profileData)
-      }
-      setLoading(false)
-    }
-
-    fetchUserAndProfile()
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null)
-      if (session?.user) {
-        setIsAdmin(session.user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL)
-        const fetchProfile = async () => {
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('avatar_url, username')
-            .eq('id', session.user!.id)
-            .single()
-          setProfile(profileData)
-        }
-        fetchProfile()
-      } else {
-        setIsAdmin(false)
-        setProfile(null)
-      }
-      setLoading(false)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [supabase, supabase.auth])
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut()
-    toast.success(tAuth('logoutSuccess'))
-    router.push(`/${locale}`)
-    router.refresh()
-  }
 
   return (
     <nav className="bg-white dark:bg-dark-background shadow-sm border-b dark:border-gray-700">
