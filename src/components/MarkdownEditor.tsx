@@ -1,13 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { EyeIcon, PencilIcon } from '@heroicons/react/24/outline'
 
 // Dynamically import MDEditor to avoid SSR issues
 const MDEditor = dynamic(
   () => import('@uiw/react-md-editor').then((mod) => mod.default),
-  { ssr: false }
+  { ssr: false,
+    loading: () => <div className="w-full h-[400px] bg-gray-200 animate-pulse rounded-md" />
+  }
 )
 
 interface MarkdownEditorProps {
@@ -24,6 +26,15 @@ export default function MarkdownEditor({
   height = 400 
 }: MarkdownEditorProps) {
   const [mode, setMode] = useState<'edit' | 'preview' | 'live'>('live')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div className="w-full h-[400px] bg-gray-200 animate-pulse rounded-md" />
+  }
 
   return (
     <div className="w-full">
