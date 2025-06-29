@@ -36,15 +36,23 @@
     "title": "Developer's Blog",
     "subtitle": "A space for sharing stories about technology, development, and everyday life. Share knowledge and experience through posts written in Markdown.",
     "viewAllPosts": "View All Posts",
+    "totalPosts": "Total Posts",
+    "totalTags": "Total Tags",
+    "recentPosts": "Recent Posts",
+    "viewAll": "View All",
+    "noPosts": "No posts yet",
+    "noPostsDescription": "Write your first post!",
     "postsCount": "Posts",
     "tagsCount": "Tags",
     "visitorsCount": "Visitors",
     "noPostsTitle": "No posts yet",
-    "noPostsDescription": "Write your first post!",
-    "createPost": "Create Post"
+    "createPost": "Create Post",
+    "dailyVisitors": "Today's Visitors",
+    "totalVisitors": "Total Visitors"
   },
   "posts": {
     "title": "All Posts",
+    "subtitle": "Discover the latest blog posts",
     "searchPlaceholder": "Search posts...",
     "noResults": "No search results",
     "publishedOn": "Published on",
@@ -57,7 +65,10 @@
     "delete": "Delete",
     "publish": "Publish",
     "unpublish": "Unpublish",
-    "draft": "Draft"
+    "draft": "Draft",
+    "noPosts": "No posts yet",
+    "noPostsDescription": "Be the first to write a post!",
+    "getStarted": "Get Started"
   },
   "dashboard": {
     "title": "Dashboard",

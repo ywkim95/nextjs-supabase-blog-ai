@@ -1,11 +1,9 @@
-import { createClient } from '@/lib/supabase/server'
-import { getRecentPosts, getPostsCount, getTagsCount } from '@/lib/services/post.service'
-import Layout from '@/components/Layout'
-import Link from 'next/link'
-import { PencilIcon } from '@heroicons/react/24/outline'
-import VisitorStats from '@/components/VisitorStats'
-import PostCard from '@/components/PostCard'
 import { getTranslations } from 'next-intl/server'
+import Link from 'next/link'
+import { PencilIcon } from '@heroicons/react/24/solid'
+import { getRecentPosts, getPostsCount, getTagsCount } from '@/lib/services/post.service'
+import PostCard from '@/components/PostCard'
+import VisitorStats from '@/components/VisitorStats'
 
 interface HomeProps {
   params: Promise<{ locale: string }>
@@ -13,95 +11,114 @@ interface HomeProps {
 
 export default async function Home({ params }: HomeProps) {
   const { locale } = await params
-  const t = await getTranslations('home')
-  const tCommon = await getTranslations('common')
-  const supabase = await createClient()
-
-  const posts = await getRecentPosts(3)
-  const totalPosts = await getPostsCount()
-  const totalTags = await getTagsCount()
-
-  // Get user session
-  const { data: { user } } = await supabase.auth.getUser()
-
-  return (
-    <Layout>
-      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+  
+  try {
+    const t = await getTranslations({ locale, namespace: 'home' })
+    const recentPosts = await getRecentPosts(3)
+    const postsCount = await getPostsCount()
+    const tagsCount = await getTagsCount()
+    
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
         {/* Hero Section */}
-        <div className="text-center mb-16">
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-orange-100 dark:bg-gray-800 mb-4">
-              <PencilIcon className="w-10 h-10 text-orange-600 dark:text-dark-primary" />
-            </div>
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
-            {t('title')}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
-            {t('subtitle')}
-          </p>
-
-          {/* Stats */}
-          <div className="flex justify-center space-x-8 mb-8">
+        <div className="bg-white dark:bg-gray-800 border-b dark:border-gray-700">
+          <div className="max-w-6xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600 dark:text-dark-primary">{totalPosts || 0}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">{t('postsCount')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-orange-600 dark:text-dark-primary">{totalTags || 0}</div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">{t('tagsCount')}</div>
-            </div>
-            <VisitorStats />
-          </div>
+              <div className="mx-auto h-20 w-20 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center mb-6">
+                <PencilIcon className="h-10 w-10 text-orange-600 dark:text-orange-400" />
+              </div>
+              
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-dark-text mb-4">
+                {t('title')}
+              </h1>
+              <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+                {t('subtitle')}
+              </p>
 
-          <div className="flex justify-center space-x-4">
-            <Link
-              href={`/${locale}/posts`}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 transition-colors"
-            >
-              {t('viewAllPosts')}
-            </Link>
+              {/* Stats */}
+              <div className="flex justify-center items-center space-x-8 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-dark-text">{postsCount}</div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('totalPosts')}</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-dark-text">{tagsCount}</div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{t('totalTags')}</p>
+                </div>
+                <VisitorStats />
+              </div>
+
+              <Link
+                href={`/${locale}/posts`}
+                className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+              >
+                {t('viewAllPosts')}
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* Recent Posts */}
-        {posts && posts.length > 0 && (
-          <div>
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-dark-text">{t('recentPosts')}</h2>
-              <Link
-                href={`/${locale}/posts`}
-                className="text-orange-600 dark:text-dark-accent hover:text-orange-800 font-medium"
-              >
-{tCommon('viewAll')} →
-              </Link>
-            </div>
+        {/* Recent Posts Section */}
+        <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-dark-text">{t('recentPosts')}</h2>
+            <Link
+              href={`/${locale}/posts`}
+              className="text-orange-600 dark:text-dark-accent hover:text-orange-500 font-medium"
+            >
+              {t('viewAll')} →
+            </Link>
+          </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
+          {recentPosts && recentPosts.length > 0 ? (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {recentPosts.map((post) => (
                 <PostCard key={post.id} post={post} />
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Empty state */}
-        {(!posts || posts.length === 0) && (
-          <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow">
-            <PencilIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-dark-text mb-2">{t('noPostsTitle')}</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">{t('noPostsDescription')}</p>
-            {user && user.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL && (
-              <Link
-                href={`/${locale}/dashboard/posts/new`}
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700"
-              >
-                {t('createPost')}
-              </Link>
-            )}
-          </div>
-        )}
+          ) : (
+            <div className="text-center py-12">
+              <div className="mx-auto h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6">
+                <PencilIcon className="h-12 w-12 text-gray-400" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 dark:text-dark-text mb-2">
+                {t('noPosts')}
+              </h3>
+              <p className="text-gray-500 dark:text-gray-400 mb-6">
+                {t('noPostsDescription')}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
-    </Layout>
-  )
+    )
+  } catch (error) {
+    console.error('Error in Home component:', error)
+    console.error('Error details:', {
+      name: error?.name,
+      message: error?.message,
+      stack: error?.stack,
+      locale: locale
+    })
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
+        <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Translation Error
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Failed to load translations
+            </p>
+            <p className="mt-4 text-sm text-gray-500">
+              Current locale: {locale}
+            </p>
+            <p className="mt-2 text-sm text-red-500">
+              Error: {String(error)}
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }

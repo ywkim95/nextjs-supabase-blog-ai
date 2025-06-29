@@ -1,171 +1,76 @@
-# Next.js Supabase Blog
+# Next.js & Supabase 기반 블로그 플랫폼
 
-A modern, full-featured blog application built with Next.js 15 and Supabase.
+이 프로젝트는 Next.js 15(App Router)와 Supabase를 사용하여 구축된 최신 기술 스택의 블로그 애플리케이션입니다. 사용자 인증, 게시물 관리(CRUD), 댓글, 다국어 지원 등 블로그의 핵심 기능을 포함하고 있습니다.
 
-## Features
+## ✨ 주요 기능
 
-- ✅ **User Authentication** - Sign up/sign in with email and password
-- ✅ **Post Management** - Create, edit, delete, and publish blog posts
-- ✅ **Rich Content** - Markdown-style content editing
-- ✅ **SEO-Friendly** - Slug-based URLs for better SEO
-- ✅ **Comments System** - Readers can comment on posts
-- ✅ **User Profiles** - Author profiles with avatars
-- ✅ **Responsive Design** - Works on all devices
-- ✅ **Real-time Updates** - Powered by Supabase real-time subscriptions
-- ✅ **Full-text Search** - PostgreSQL-powered search functionality
-- ✅ **Tag System** - Organize posts with tags
-- ✅ **Draft/Published States** - Save drafts and publish when ready
+- **사용자 인증**: Supabase Auth를 이용한 이메일/비밀번호 기반 회원가입 및 로그인
+- **게시물 관리**: 마크다운 에디터를 사용한 게시물 생성, 조회, 수정, 삭제 (CRUD)
+- **댓글 기능**: 각 게시물에 대한 사용자 댓글 작성 및 조회
+- **프로필 관리**: 사용자 이름, 아바타 등 프로필 정보 수정
+- **태그 시스템**: 게시물에 태그를 추가하여 분류
+- **다국어 지원**: `next-intl`을 활용한 한국어/영어 지원 (i18n)
+- **테마 전환**: 라이트/다크 모드 테마 지원
+- **방문자 통계**: 간단한 방문자 수 추적 기능
 
-## Tech Stack
+## 🚀 기술 스택
 
-- **Frontend**: Next.js 15 (App Router), React 18, TypeScript
-- **Backend**: Supabase (PostgreSQL + Auth + Storage)
-- **Styling**: Tailwind CSS
-- **Authentication**: Supabase Auth
-- **Database**: PostgreSQL with Row Level Security
+- **프론트엔드**: Next.js 15, React, TypeScript, Tailwind CSS
+- **백엔드**: Supabase (PostgreSQL Database, Auth, Storage)
+- **상태 관리**: React Hooks & Context API
+- **UI/UX**: `react-hot-toast` (알림), `react-icons` (아이콘)
+- **코드 품질**: ESLint, Prettier
 
-## Database Schema
+## 🏛️ 아키텍처 특징
 
-The application uses the following database structure:
+- **Next.js App Router**: 서버 컴포넌트와 클라이언트 컴포넌트를 적극적으로 활용하여 성능 최적화
+- **Supabase 통합**: 브라우저와 서버 환경을 위한 별도의 Supabase 클라이언트를 구현 (`/lib/supabase/client.ts`, `/lib/supabase/server.ts`)
+- **인증 및 미들웨어**: `middleware.ts`를 통해 인증 상태를 확인하고 보호된 라우트(/dashboard)로의 접근을 제어
+- **데이터베이스 보안**: Supabase의 RLS(Row Level Security)를 적용하여 사용자별 데이터 접근 권한 관리
+- **타입 안정성**: Supabase CLI를 통해 데이터베이스 스키마로부터 TypeScript 타입을 자동 생성하여 사용
 
-- **profiles** - User profiles linked to auth.users
-- **posts** - Blog posts with title, content, slug, and publish status
-- **tags** - Post tags for categorization
-- **post_tags** - Many-to-many relationship between posts and tags
-- **comments** - User comments on posts
-- **Full-text search** - PostgreSQL tsvector for searching posts
+## 🏁 시작하기
 
-## Getting Started
+### 1. 레포지토리 클론
 
-### Prerequisites
-
-- Node.js 18 or later
-- A Supabase account and project
-
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd nextjs-supabase-blog
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Set up environment variables:
-   ```bash
-   cp ..env.example ..env.local
-   ```
-   
-   Update `.env.local` with your Supabase credentials:
-   ```
-   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
-
-4. Set up the database:
-   - Apply the SQL schema from `supabase/schemas/full_schema_reset.sql` to your Supabase project
-   - This will create all necessary tables, policies, and functions
-
-5. Run the development server:
-   ```bash
-   npm run dev
-   ```
-
-6. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## Project Structure
-
-```
-src/
-├── app/                    # Next.js 15 App Router pages
-│   ├── dashboard/         # User dashboard and post management
-│   ├── login/            # Authentication pages
-│   ├── posts/            # Public post listing and individual posts
-│   └── layout.tsx        # Root layout with Toaster
-├── components/           # Reusable UI components
-│   ├── Layout.tsx       # Main app layout with navigation
-│   └── Navbar.tsx       # Navigation component
-└── lib/
-    └── supabase/        # Supabase configuration and types
-        ├── client.ts    # Browser client
-        ├── server.ts    # Server client
-        ├── middleware.ts # Auth middleware
-        └── database.types.ts # TypeScript types
+```bash
+git clone https://github.com/your-username/nextjs-supabase-blog-ai.git
+cd nextjs-supabase-blog-ai
 ```
 
-## Features Overview
+### 2. 의존성 설치
 
-### Authentication
-- Email/password authentication via Supabase Auth
-- Protected routes with middleware
-- Automatic profile creation on signup
+```bash
+npm install
+```
 
-### Blog Management
-- Create and edit posts with a clean editor
-- Auto-generate slugs from titles
-- Draft and publish functionality
-- Delete posts with confirmation
+### 3. 환경 변수 설정
 
-### Public Features
-- Browse all published posts
-- Read individual posts
-- View author profiles
-- Comment on posts (requires authentication)
+`.env.example` 파일이 있다면 복사하여 `.env.local` 파일을 생성하고, 본인의 Supabase 프로젝트 정보를 입력합니다. 없다면 `.env.local` 파일을 직접 생성하세요.
 
-### Advanced Features
-- Full-text search across post titles and content
-- Tag-based post categorization
-- Responsive design for mobile and desktop
+```bash
+# .env.example이 있는 경우
+cp .env.example .env.local
+```
 
-## Database Policies
+```.env.local
+# 다음 값들을 본인의 Supabase 프로젝트 값으로 채워주세요.
+NEXT_PUBLIC_SUPABASE_URL="YOUR_SUPABASE_URL"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="YOUR_SUPABASE_ANON_KEY"
+```
 
-The application uses Supabase Row Level Security (RLS) with the following policies:
+### 4. 개발 서버 실행
 
-- **Posts**: Users can CRUD their own posts, everyone can read published posts
-- **Comments**: Users can CRUD their own comments, everyone can read all comments
-- **Profiles**: Everyone can read profiles, users can update their own
-- **Tags**: Everyone can read, authors can manage tags for their posts
+```bash
+npm run dev
+```
 
-## Development
+브라우저에서 `http://localhost:3000`으로 접속하여 애플리케이션을 확인할 수 있습니다.
 
-### Available Scripts
+## 🛠️ 주요 명령어
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run typecheck` - Run TypeScript type checking
-
-### Key Technologies
-
-- **Next.js 15**: Latest features including Server Components and App Router
-- **Supabase**: Backend-as-a-Service with PostgreSQL, Auth, and real-time features
-- **TypeScript**: Full type safety throughout the application
-- **Tailwind CSS**: Utility-first CSS framework for rapid UI development
-
-## Deployment
-
-The application can be deployed to any platform that supports Next.js:
-
-- **Vercel** (recommended)
-- **Netlify**
-- **Railway**
-- **Self-hosted**
-
-Make sure to set the environment variables in your deployment platform.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and type checking
-5. Submit a pull request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
+- `npm run dev`: 개발 서버를 시작합니다.
+- `npm run build`: 프로덕션용으로 애플리케이션을 빌드합니다.
+- `npm run start`: 빌드된 애플리케이션을 실행합니다.
+- `npm run lint`: ESLint로 코드 스타일을 검사합니다.
+- `npm run typecheck`: TypeScript 타입 체크를 실행합니다.

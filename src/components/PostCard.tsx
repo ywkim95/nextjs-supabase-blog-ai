@@ -1,7 +1,10 @@
 // src/components/PostCard.tsx
+'use client'
+
 import Link from 'next/link'
 import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils'
 import { ClockIcon } from '@heroicons/react/24/outline'
+import { useLocale } from 'next-intl'
 import type { PostWithAuthorAndTags } from '@/lib/supabase/database.types'
 
 interface PostCardProps {
@@ -9,11 +12,12 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post }: PostCardProps) {
+  const locale = useLocale()
   const postTags = post.post_tags?.map((pt) => pt.tags.name) || []
   const readingTime = post.content ? calculateReadingTime(post.content) : 1
 
   return (
-    <Link href={`/posts/${post.slug || post.id}`}>
+    <Link href={`/${locale}/posts/${post.slug || post.id}`}>
       <article className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
         <div className="p-6">
           <h3 className="text-xl font-semibold text-gray-900 dark:text-dark-primary mb-3 hover:text-orange-600 dark:hover:text-dark-accent transition-colors">

@@ -32,12 +32,19 @@ export default function LanguageSwitcher() {
   }, [])
 
   const switchLanguage = (newLocale: string) => {
+    if (newLocale === locale) {
+      setIsOpen(false)
+      return
+    }
+    
     // Remove current locale from pathname and add new locale
     const pathnameWithoutLocale = pathname.replace(/^\/(ko|en)/, '') || '/'
     const newPath = `/${newLocale}${pathnameWithoutLocale}`
     
-    router.push(newPath)
     setIsOpen(false)
+    
+    // Use window.location for reliable language switching
+    window.location.href = newPath
   }
 
   const currentLanguage = languages.find(lang => lang.code === locale)

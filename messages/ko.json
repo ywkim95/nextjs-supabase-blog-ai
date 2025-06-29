@@ -36,12 +36,19 @@
     "title": "개발자의 블로그",
     "subtitle": "기술, 개발, 그리고 일상의 이야기를 나누는 공간입니다. 마크다운으로 작성된 포스트들을 통해 지식과 경험을 공유합니다.",
     "viewAllPosts": "모든 포스트 보기",
+    "totalPosts": "총 포스트",
+    "totalTags": "총 태그",
+    "recentPosts": "최근 포스트",
+    "viewAll": "전체 보기",
+    "noPosts": "아직 포스트가 없습니다",
+    "noPostsDescription": "첫 번째 포스트를 작성해보세요!",
     "postsCount": "포스트",
     "tagsCount": "태그",
     "visitorsCount": "방문자",
     "noPostsTitle": "아직 포스트가 없습니다",
-    "noPostsDescription": "첫 번째 포스트를 작성해보세요!",
-    "createPost": "포스트 작성하기"
+    "createPost": "포스트 작성하기",
+    "dailyVisitors": "오늘 방문자",
+    "totalVisitors": "총 방문자"
   },
   "posts": {
     "title": "모든 포스트",
