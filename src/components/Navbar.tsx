@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useEffect, useState, useRef } from 'react'
 import { User } from '@supabase/supabase-js'
 import { toast } from 'react-hot-toast'
+import { useTranslations, useLocale } from 'next-intl'
 import {
   ArrowRightOnRectangleIcon,
   Cog6ToothIcon,
@@ -14,8 +15,12 @@ import {
 } from '@heroicons/react/24/outline'
 
 import ThemeSwitcher from './ThemeSwitcher'
+import LanguageSwitcher from './LanguageSwitcher'
 
 export default function Navbar() {
+  const t = useTranslations('common')
+  const tAuth = useTranslations('auth')
+  const locale = useLocale()
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<{
     avatar_url: string | null
@@ -88,8 +93,8 @@ export default function Navbar() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut()
-    toast.success('Signed out successfully')
-    router.push('/')
+    toast.success(tAuth('logoutSuccess'))
+    router.push(`/${locale}`)
     router.refresh()
   }
 
@@ -98,15 +103,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-gray-900 dark:text-dark-text">
-              Blog
+            <Link href={`/${locale}`} className="text-xl font-bold text-gray-900 dark:text-dark-text">
+              {t('blog')}
             </Link>
             <div className="ml-8 hidden sm:flex sm:space-x-4">
               <Link
-                href="/posts"
+                href={`/${locale}/posts`}
                 className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
               >
-                All Posts
+                {t('allPosts')}
               </Link>
             </div>
           </div>
@@ -118,11 +123,11 @@ export default function Navbar() {
               isAdmin ? (
                 <>
                   <Link
-                    href="/dashboard/posts/new"
+                    href={`/${locale}/dashboard/posts/new`}
                     className="hidden sm:inline-flex items-center bg-orange-600 text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-orange-700"
                   >
                     <PencilSquareIcon className="h-5 w-5 mr-2" />
-                    Write Post
+                    {t('writePost')}
                   </Link>
                   <div className="relative" ref={menuRef}>
                     <button
@@ -150,25 +155,25 @@ export default function Navbar() {
                         </div>
                         <div className="border-t border-gray-100 dark:border-gray-700" />
                         <Link
-                          href="/dashboard"
+                          href={`/${locale}/dashboard`}
                           className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <Cog6ToothIcon className="h-5 w-5 mr-2" />
-                          Dashboard
+                          {t('dashboard')}
                         </Link>
                         <Link
-                          href="/profile"
+                          href={`/${locale}/profile`}
                           className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <UserCircleIcon className="h-5 w-5 mr-2" />
-                          Profile
+                          {t('profile')}
                         </Link>
                         <button
                           onClick={handleSignOut}
                           className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                         >
                           <ArrowRightOnRectangleIcon className="h-5 w-5 mr-2" />
-                          Sign Out
+                          {tAuth('signOut')}
                         </button>
                       </div>
                     )}
@@ -179,10 +184,11 @@ export default function Navbar() {
                   onClick={handleSignOut}
                   className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                 >
-                  Sign Out
+                  {tAuth('signOut')}
                 </button>
               )
             ) : null}
+            <LanguageSwitcher />
             <ThemeSwitcher />
           </div>
         </div>

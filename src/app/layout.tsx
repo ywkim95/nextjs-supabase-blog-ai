@@ -12,13 +12,15 @@ export const metadata: Metadata = {
 
 import { Providers } from './providers'
 
-export default function RootLayout({
-  children,
-}: {
+interface RootLayoutProps {
   children: React.ReactNode
-}) {
+}
+
+export default function RootLayout({
+  children
+}: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
           {children}
