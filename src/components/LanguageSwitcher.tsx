@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
     
     setIsOpen(false)
     
-    window.location.href = newPath
+    window.location.assign(newPath)
   }
 
   const currentLanguage = languages.find(lang => lang.code === locale)

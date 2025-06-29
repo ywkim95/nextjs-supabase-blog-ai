@@ -41,18 +41,19 @@ export default function ThemeSwitcher() {
         type="button"
         className="p-1.5 rounded-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:focus:ring-offset-dark-background"
         onClick={() => setIsOpen(!isOpen)}
+        data-testid="theme-switcher-button"
       >
         {getIcon()}
       </button>
       {isOpen && (
         <div className="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10">
-          <button onClick={() => { setTheme('light'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <button data-testid="theme-light" onClick={() => { setTheme('light'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
             <SunIcon className="w-5 h-5 mr-2" /> Light
           </button>
-          <button onClick={() => { setTheme('dark'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <button data-testid="theme-dark" onClick={() => { setTheme('dark'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
             <MoonIcon className="w-5 h-5 mr-2" /> Dark
           </button>
-          <button onClick={() => { setTheme('system'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+          <button data-testid="theme-system" onClick={() => { setTheme('system'); setIsOpen(false); }} className="w-full text-left flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
             <ComputerDesktopIcon className="w-5 h-5 mr-2" /> System
           </button>
         </div>
