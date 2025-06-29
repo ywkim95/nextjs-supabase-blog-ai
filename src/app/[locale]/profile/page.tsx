@@ -1,7 +1,6 @@
 // src/app/profile/page.tsx
 import { createClient } from '@/lib/supabase/server'
 import { getProfile } from '@/lib/services/post.service'
-import Navbar from '@/components/Navbar'
 import ProfileForm from '@/components/ProfileForm'
 import { redirect } from 'next/navigation'
 
@@ -20,7 +19,6 @@ export default async function ProfilePage() {
     // You might want to handle this by creating a profile entry or showing an error.
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
-        <Navbar />
         <main>
           <div className="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <div className="text-center">
@@ -35,7 +33,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
-      <Navbar />
       <main>
       <div className="max-w-2xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
