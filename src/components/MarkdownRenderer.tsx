@@ -1,7 +1,7 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
-import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 
 interface MarkdownRendererProps {
   content: string
@@ -13,7 +13,33 @@ export default function MarkdownRenderer({ content, className = '' }: MarkdownRe
     <div className={`prose prose-lg max-w-none ${className}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight, rehypeRaw]}
+        rehypePlugins={[
+          rehypeHighlight,
+          [rehypeSanitize, {
+            // 보안이 강화된 허용 태그 목록
+            tagNames: [
+              'p', 'br', 'strong', 'em', 'b', 'i', 'u', 's', 'del', 'ins',
+              'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+              'ul', 'ol', 'li',
+              'blockquote', 'pre', 'code',
+              'a', 'img',
+              'table', 'thead', 'tbody', 'tr', 'th', 'td',
+              'hr', 'div', 'span'
+            ],
+            attributes: {
+              'a': ['href', 'title'],
+              'img': ['src', 'alt', 'title', 'width', 'height'],
+              'code': ['className'],
+              'pre': ['className'],
+              '*': ['className'] // 스타일링을 위한 클래스만 허용
+            },
+            // 잠재적으로 위험한 프로토콜 차단
+            protocols: {
+              'href': ['http', 'https', 'mailto'],
+              'src': ['http', 'https']
+            }
+          }]
+        ]}
         components={{
           // Custom styling for different elements
           h1: ({ children }) => (

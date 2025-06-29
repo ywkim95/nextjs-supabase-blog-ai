@@ -21,8 +21,32 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
 
-    if (email.trim() !== process.env.NEXT_PUBLIC_ADMIN_EMAIL?.trim()) {
-      toast.error(t('notAdminAccount'))
+    // 관리자 이메일 검증을 서버 API로 이동 (보안 개선)
+    try {
+      const adminCheckResponse = await fetch('/api/auth/admin-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim() })
+      })
+
+      if (!adminCheckResponse.ok) {
+        toast.error(t('unexpectedError'))
+        setLoading(false)
+        return
+      }
+
+      const { isAdmin } = await adminCheckResponse.json()
+      
+      if (!isAdmin) {
+        toast.error(t('notAdminAccount'))
+        setLoading(false)
+        return
+      }
+    } catch (error) {
+      console.error('Admin check failed:', error)
+      toast.error(t('unexpectedError'))
       setLoading(false)
       return
     }
@@ -51,8 +75,32 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
 
-    if (email.trim() !== process.env.NEXT_PUBLIC_ADMIN_EMAIL?.trim()) {
-      toast.error(t('notAdminAccount'))
+    // 관리자 이메일 검증을 서버 API로 이동 (보안 개선)
+    try {
+      const adminCheckResponse = await fetch('/api/auth/admin-check', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: email.trim() })
+      })
+
+      if (!adminCheckResponse.ok) {
+        toast.error(t('unexpectedError'))
+        setLoading(false)
+        return
+      }
+
+      const { isAdmin } = await adminCheckResponse.json()
+      
+      if (!isAdmin) {
+        toast.error(t('notAdminAccount'))
+        setLoading(false)
+        return
+      }
+    } catch (error) {
+      console.error('Admin check failed:', error)
+      toast.error(t('unexpectedError'))
       setLoading(false)
       return
     }
