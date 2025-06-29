@@ -21,13 +21,12 @@ export default async function PostsPage({ params }: PostsPageProps) {
             <p className="mt-2 text-gray-600 dark:text-gray-400">{t('subtitle')}</p>
           </div>
 
+          import PostList from '@/components/PostList';
+...
           {posts && posts.length > 0 ? (
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
+            <PostList posts={posts} />
           ) : (
+...
             <div className="text-center py-12">
               <h3 className="text-lg font-medium text-gray-900 dark:text-dark-text mb-2">
                 {t('noPosts')}

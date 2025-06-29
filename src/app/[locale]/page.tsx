@@ -70,13 +70,12 @@ export default async function Home({ params }: HomeProps) {
             </Link>
           </div>
 
+          import PostList from '@/components/PostList';
+...
           {recentPosts && recentPosts.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {recentPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
-            </div>
+            <PostList posts={recentPosts} />
           ) : (
+...
             <div className="text-center py-12">
               <div className="mx-auto h-24 w-24 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center mb-6">
                 <PencilIcon className="h-12 w-12 text-gray-400" />
