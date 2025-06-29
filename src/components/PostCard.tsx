@@ -2,10 +2,10 @@
 'use client'
 
 import Link from 'next/link'
-import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils'
-import { ClockIcon } from '@heroicons/react/24/outline'
 import { useLocale } from 'next-intl'
 import type { PostWithAuthorAndTags } from '@/lib/supabase/database.types'
+import PostCardMeta from './PostCardMeta'
+import PostCardTags from './PostCardTags'
 
 interface PostCardProps {
   post: PostWithAuthorAndTags
@@ -14,7 +14,6 @@ interface PostCardProps {
 export default function PostCard({ post }: PostCardProps) {
   const locale = useLocale()
   const postTags = post.post_tags?.map((pt) => pt.tags.name) || []
-  const readingTime = post.content ? calculateReadingTime(post.content) : 1
 
   return (
     <Link href={`/${locale}/posts/${post.slug || post.id}`}>
@@ -31,43 +30,8 @@ export default function PostCard({ post }: PostCardProps) {
             </p>
           )}
 
-          {postTags.length > 0 && (
-            <div className="mb-4">
-              <div className="flex items-center flex-wrap gap-2">
-                {postTags.slice(0, 2).map((tag: string, index: number) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 dark:bg-dark-primary dark:text-dark-background"
-                  >
-                    {tag}
-                  </span>
-                ))}
-                {postTags.length > 2 && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
-                    +{postTags.length - 2}
-                  </span>
-                )}
-              </div>
-            </div>
-          )}
-
-          <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-            <div className="flex items-center">
-              <div className="w-6 h-6 rounded-full bg-orange-500 dark:bg-dark-secondary flex items-center justify-center mr-2">
-                <span className="text-xs font-medium text-white dark:text-dark-background">
-                  {post.profiles?.username?.[0]?.toUpperCase() || 'U'}
-                </span>
-              </div>
-              <span className="dark:text-gray-300">{post.profiles?.username}</span>
-            </div>
-            <div className="flex items-center space-x-3">
-              <span>{formatDate(post.created_at)}</span>
-              <span className="flex items-center">
-                <ClockIcon className="w-4 h-4 mr-1" />
-                {formatReadingTime(readingTime)}
-              </span>
-            </div>
-          </div>
+          <PostCardTags tags={postTags} />
+          <PostCardMeta post={post} />
         </div>
       </article>
     </Link>
