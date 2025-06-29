@@ -57,7 +57,7 @@ The application uses the following database structure:
 
 3. Set up environment variables:
    ```bash
-   cp .env.example .env.local
+   cp ..env.example ..env.local
    ```
    
    Update `.env.local` with your Supabase credentials:
