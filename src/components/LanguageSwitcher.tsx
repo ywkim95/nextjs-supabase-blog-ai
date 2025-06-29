@@ -1,7 +1,7 @@
 'use client'
 
 import { useLocale, useTranslations } from 'next-intl'
-import { usePathname, useRouter } from 'next-intl/client'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState, useRef, useEffect, useTransition } from 'react'
 import { LanguageIcon } from '@heroicons/react/24/outline'
 
