@@ -25,7 +25,6 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <AuthButtons />
         </div>
       </div>
     </nav>
