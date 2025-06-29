@@ -2,12 +2,32 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import type { User } from '@supabase/supabase-js'
 import LanguageSwitcher from './LanguageSwitcher'
 import ThemeSwitcher from './ThemeSwitcher'
 
 export default function Navbar() {
   const t = useTranslations('common')
   const locale = useLocale()
+  const [user, setUser] = useState<User | null>(null)
+  const supabase = createClient()
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user)
+    }
+
+    getUser()
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <nav className="bg-white dark:bg-dark-background shadow-sm border-b dark:border-gray-700">
@@ -24,11 +44,38 @@ export default function Navbar() {
               >
                 {t('allPosts')}
               </Link>
+              {user && (
+                <>
+                  <Link
+                    href={`/${locale}/dashboard`}
+                    className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    {t('dashboard')}
+                  </Link>
+                  <Link
+                    href={`/${locale}/profile`}
+                    className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    {t('profile')}
+                  </Link>
+                </>
+              )}
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <ThemeSwitcher />
+            {user && (
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut()
+                  window.location.href = `/${locale}`
+                }}
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+              >
+                {t('logout')}
+              </button>
+            )}
           </div>
         </div>
       </div>
