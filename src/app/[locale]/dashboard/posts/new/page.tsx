@@ -2,7 +2,6 @@
 
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import Navbar from '@/components/Navbar'
 import PostForm from '@/components/PostForm'
 import { toast } from 'react-hot-toast'
 
@@ -50,7 +49,6 @@ export default function NewPost() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
-      <Navbar />
       <main>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">

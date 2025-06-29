@@ -1,5 +1,4 @@
 import { getPostBySlug, getCommentsByPostId } from '@/lib/services/post.service'
-import Navbar from '@/components/Navbar'
 import MarkdownRenderer from '@/components/MarkdownRenderer'
 import { calculateReadingTime, formatReadingTime, formatDate } from '@/lib/utils'
 import { notFound } from 'next/navigation'
@@ -49,7 +48,6 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
-      <Navbar />
       <main>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <article className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
