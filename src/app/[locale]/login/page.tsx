@@ -21,6 +21,9 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
 
+    console.log('Admin email from env:', process.env.NEXT_PUBLIC_ADMIN_EMAIL)
+    console.log('Input email:', email)
+
     if (email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
       toast.error(t('notAdminAccount'))
       setLoading(false)
@@ -50,6 +53,9 @@ export default function Login() {
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+
+    console.log('Admin email from env (reset):', process.env.NEXT_PUBLIC_ADMIN_EMAIL)
+    console.log('Input email (reset):', email)
 
     if (email !== process.env.NEXT_PUBLIC_ADMIN_EMAIL) {
       toast.error(t('notAdminAccount'))
