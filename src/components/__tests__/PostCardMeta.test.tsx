@@ -46,4 +46,28 @@ describe('PostCardMeta', () => {
     render(<PostCardMeta post={mockPost} />)
     expect(screen.getByText('T')).toBeInTheDocument()
   })
+
+  it('renders "U" as fallback when username is null', () => {
+    const postWithoutUsername = {
+      ...mockPost,
+      profiles: { ...mockPost.profiles, username: null },
+    }
+    render(<PostCardMeta post={postWithoutUsername as any} />)
+    expect(screen.getByText('U')).toBeInTheDocument()
+  })
+
+  it('renders "U" as fallback when username is an empty string', () => {
+    const postWithEmptyUsername = {
+      ...mockPost,
+      profiles: { ...mockPost.profiles, username: '' },
+    }
+    render(<PostCardMeta post={postWithEmptyUsername as any} />)
+    expect(screen.getByText('U')).toBeInTheDocument()
+  })
+
+  it('renders "U" as fallback when profiles is null', () => {
+    const postWithoutProfile = { ...mockPost, profiles: null }
+    render(<PostCardMeta post={postWithoutProfile as any} />)
+    expect(screen.getByText('U')).toBeInTheDocument()
+  })
 })
