@@ -28,8 +28,8 @@
     "posts": "Posts"
   },
   "home": {
-    "title": "Developer's Blog",
-    "subtitle": "A space for sharing stories about technology, development, and everyday life. Share knowledge and experience through posts written in Markdown.",
+    "title": "YWKim's Blog",
+    "subtitle": "A 3-year developer who loves solving problems with React and TypeScript.",
     "viewAllPosts": "View All Posts",
     "totalPosts": "Total Posts",
     "totalTags": "Total Tags",

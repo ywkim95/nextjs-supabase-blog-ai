@@ -15,7 +15,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link href={`/${locale}`} className="text-xl font-bold text-gray-900 dark:text-dark-text">
-              {t('blog')}
+              YWKim
             </Link>
             <div className="ml-8 hidden sm:flex sm:space-x-4">
               <Link
