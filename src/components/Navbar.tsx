@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useTranslations, useLocale } from 'next-intl'
-import AuthButtons from './AuthButtons'
+import LanguageSwitcher from './LanguageSwitcher'
+import ThemeSwitcher from './ThemeSwitcher'
 
 export default function Navbar() {
   const t = useTranslations('common')
@@ -24,6 +25,10 @@ export default function Navbar() {
                 {t('allPosts')}
               </Link>
             </div>
+          </div>
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            <ThemeSwitcher />
           </div>
         </div>
       </div>
