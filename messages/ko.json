@@ -11,8 +11,6 @@
     "logout": "로그아웃",
     "dashboard": "대시보드",
     "profile": "프로필",
-    "settings": "설정",
-    "admin": "관리자",
     "loading": "로딩 중...",
     "error": "오류",
     "success": "성공",
@@ -23,14 +21,11 @@
     "search": "검색",
     "tags": "태그",
     "comments": "댓글",
-    "readMore": "더 읽기",
-    "backToTop": "맨 위로"
+    "readMore": "더 읽기"
   },
   "navigation": {
     "home": "홈",
-    "posts": "포스트",
-    "about": "소개",
-    "contact": "연락처"
+    "posts": "포스트"
   },
   "home": {
     "title": "개발자의 블로그",
@@ -92,11 +87,8 @@
   "auth": {
     "login": "로그인",
     "logout": "로그아웃",
-    "signup": "회원가입",
     "email": "이메일",
     "password": "비밀번호",
-    "confirmPassword": "비밀번호 확인",
-    "forgotPassword": "비밀번호를 잊으셨나요?",
     "adminLogin": "관리자 로그인",
     "emailPlaceholder": "이메일 주소",
     "passwordPlaceholder": "비밀번호",
@@ -107,33 +99,6 @@
     "loginSuccess": "관리자로 성공적으로 로그인했습니다!",
     "logoutSuccess": "성공적으로 로그아웃했습니다",
     "unexpectedError": "예상치 못한 오류가 발생했습니다"
-  },
-  "profile": {
-    "title": "프로필",
-    "username": "사용자명",
-    "bio": "소개",
-    "avatar": "프로필 사진",
-    "updateProfile": "프로필 업데이트",
-    "profileUpdated": "프로필이 업데이트되었습니다"
-  },
-  "comments": {
-    "title": "댓글",
-    "addComment": "댓글 추가",
-    "commentPlaceholder": "댓글을 입력하세요...",
-    "postComment": "댓글 게시",
-    "editComment": "댓글 편집",
-    "deleteComment": "댓글 삭제",
-    "confirmDeleteComment": "정말로 이 댓글을 삭제하시겠습니까?",
-    "commentPosted": "댓글이 게시되었습니다",
-    "commentUpdated": "댓글이 업데이트되었습니다",
-    "commentDeleted": "댓글이 삭제되었습니다",
-    "noComments": "아직 댓글이 없습니다",
-    "loginToComment": "댓글을 작성하려면 로그인하세요"
-  },
-  "theme": {
-    "light": "라이트 모드",
-    "dark": "다크 모드",
-    "system": "시스템 설정"
   },
   "language": {
     "korean": "한국어",

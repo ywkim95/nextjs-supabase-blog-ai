@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import Layout from '@/components/Layout'
+import Navbar from '@/components/Navbar'
 import PostForm from '@/components/PostForm'
 import { toast } from 'react-hot-toast'
 import type { Post } from '@/lib/supabase/database.types'
@@ -90,11 +90,20 @@ export default function EditPost({ params }: EditPostPageProps) {
     }
   }
 
-  if (loading) return <Layout><div className="text-center py-8">Loading...</div></Layout>
+  if (loading) return (
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
+      <Navbar />
+      <main>
+        <div className="text-center py-8">Loading...</div>
+      </main>
+    </div>
+  )
   if (!post) return null
 
   return (
-    <Layout>
+    <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
+      <Navbar />
+      <main>
       <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Post</h1>
@@ -111,6 +120,7 @@ export default function EditPost({ params }: EditPostPageProps) {
           </button>
         </div>
       </div>
-    </Layout>
+      </main>
+    </div>
   )
 }
