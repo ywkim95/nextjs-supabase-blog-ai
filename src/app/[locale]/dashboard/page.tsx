@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase/server'
-import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import type { Post } from '@/lib/supabase/database.types'
@@ -30,7 +29,6 @@ export default async function Dashboard({ params }: DashboardProps) {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-dark-background">
-      <Navbar />
       <main>
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-8">
