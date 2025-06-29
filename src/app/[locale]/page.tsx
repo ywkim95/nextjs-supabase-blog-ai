@@ -4,6 +4,8 @@ import { PencilIcon } from '@heroicons/react/24/solid'
 import { getRecentPosts, getPostsCount, getTagsCount } from '@/lib/services/post.service'
 import PostCard from '@/components/PostCard'
 import VisitorStats from '@/components/VisitorStats'
+import PostList from '@/components/PostList'
+import NoPosts from '@/components/NoPosts'
 
 interface HomeProps {
   params: Promise<{ locale: string }>
@@ -70,9 +72,6 @@ export default async function Home({ params }: HomeProps) {
             </Link>
           </div>
 
-          import PostList from '@/components/PostList';
-import NoPosts from '@/components/NoPosts';
-...
           {recentPosts && recentPosts.length > 0 ? (
             <PostList posts={recentPosts} />
           ) : (
@@ -88,9 +87,9 @@ import NoPosts from '@/components/NoPosts';
   } catch (error) {
     console.error('Error in Home component:', error)
     console.error('Error details:', {
-      name: error?.name,
-      message: error?.message,
-      stack: error?.stack,
+      name: (error as Error)?.name,
+      message: (error as Error)?.message,
+      stack: (error as Error)?.stack,
       locale: locale
     })
     return (

@@ -61,7 +61,7 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
       const newCommentWithProfile: CommentWithAuthor = {
         ...newCommentData,
         profiles: profile
-      }
+      } as CommentWithAuthor
       setComments([...comments, newCommentWithProfile])
       setNewComment('')
       toast.success('Comment added!')
@@ -76,7 +76,7 @@ export default function CommentsSection({ postId, initialComments }: CommentsSec
     try {
       const updatedComment = await updateComment(commentId, editingContent.trim())
       
-      setComments(comments.map(c => c.id === commentId ? { ...c, content: updatedComment.content } : c))
+      setComments(comments.map(c => c.id === commentId ? { ...c, content: updatedComment?.content || c.content } : c))
       setEditingCommentId(null)
       setEditingContent('')
       toast.success('Comment updated!')

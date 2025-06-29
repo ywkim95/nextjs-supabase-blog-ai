@@ -1,8 +1,8 @@
 import PostCard from '@/components/PostCard'
-import { type PostWithAuthor } from '@/lib/services/post.service'
+import { type PostWithAuthorAndTags } from '@/lib/supabase/database.types'
 
 interface PostListProps {
-  posts: PostWithAuthor[]
+  posts: PostWithAuthorAndTags[]
 }
 
 export default function PostList({ posts }: PostListProps) {

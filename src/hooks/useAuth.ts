@@ -35,7 +35,7 @@ export function useAuth() {
       setLoading(false)
     }
 
-    const { data: { session } } = supabase.auth.getSession().then(({ data }) => {
+    supabase.auth.getSession().then(({ data }) => {
       setUser(data.session?.user ?? null)
       fetchUserAndProfile(data.session?.user ?? null)
     })

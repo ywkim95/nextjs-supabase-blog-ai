@@ -14,7 +14,6 @@ import { Providers } from './providers'
 
 interface RootLayoutProps {
   children: React.ReactNode
-  params?: { locale?: string }
 }
 
 export default function RootLayout({
