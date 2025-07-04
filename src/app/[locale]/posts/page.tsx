@@ -29,10 +29,6 @@ export default async function PostsPage({ params }: PostsPageProps) {
               icon={<PencilIcon className="h-12 w-12 text-gray-400" />}
               title={t('noPosts')}
               description={t('noPostsDescription')}
-              link={{
-                href: `/${locale}/login`,
-                text: t('getStarted'),
-              }}
             />
           )}
         </div>
