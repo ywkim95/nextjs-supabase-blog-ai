@@ -17,14 +17,23 @@ export default function Navbar() {
   const supabase = createClient()
 
   useEffect(() => {
+    const checkAdminStatus = async () => {
+      try {
+        const response = await fetch('/api/admin/check')
+        const data = await response.json()
+        setIsAdmin(data.isAdmin)
+      } catch (error) {
+        console.error('Failed to check admin status:', error)
+        setIsAdmin(false)
+      }
+    }
+
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
       
       if (user) {
-        // Check if user email is admin email
-        const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@example.com'
-        setIsAdmin(user.email === adminEmail)
+        await checkAdminStatus()
       } else {
         setIsAdmin(false)
       }
@@ -36,9 +45,7 @@ export default function Navbar() {
       setUser(session?.user ?? null)
       
       if (session?.user) {
-        // Check if user email is admin email
-        const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@example.com'
-        setIsAdmin(session.user.email === adminEmail)
+        await checkAdminStatus()
       } else {
         setIsAdmin(false)
       }
