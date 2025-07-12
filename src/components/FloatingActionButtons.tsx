@@ -101,10 +101,10 @@ export default function FloatingActionButtons() {
       <div className="relative" ref={languageDropdownRef}>
         <button
           onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-          className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center"
+          className="w-12 h-12 rounded-full bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center"
           aria-label={`Change language (current: ${locale.toUpperCase()})`}
         >
-          <span className="text-xs font-bold">{locale.toUpperCase()}</span>
+          <span className="text-sm font-bold">{locale.toUpperCase()}</span>
         </button>
 
         {/* Language Dropdown */}
@@ -120,7 +120,7 @@ export default function FloatingActionButtons() {
                 }}
                 className={`
                   w-full px-4 py-2 text-left flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
-                  ${locale === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}
+                  ${locale === option.value ? 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400' : 'text-gray-700 dark:text-gray-300'}
                 `}
               >
                 <span className="text-xs font-bold w-6">{option.code}</span>
