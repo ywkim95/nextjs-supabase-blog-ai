@@ -36,7 +36,7 @@ export async function GET() {
     console.error('Admin check error:', error)
     return NextResponse.json({ 
       isAdmin: false, 
-      debug: { error: error.message }
+      debug: { error: error instanceof Error ? error.message : 'Unknown error' }
     })
   }
 }
