@@ -71,6 +71,12 @@ export default function Navbar() {
                     {t('dashboard')}
                   </Link>
                   <Link
+                    href={`/${locale}/dashboard/create`}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    {t('writePost')}
+                  </Link>
+                  <Link
                     href={`/${locale}/profile`}
                     className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                   >
