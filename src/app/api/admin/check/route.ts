@@ -6,32 +6,14 @@ export async function GET() {
     const supabase = await createClient()
     const { data: { user }, error } = await supabase.auth.getUser()
 
-    if (error) {
-      console.error('Auth error:', error)
-      return NextResponse.json({ 
-        isAdmin: false, 
-        debug: { error: error.message, user: null, adminEmail: process.env.ADMIN_EMAIL }
-      })
-    }
-
-    if (!user) {
-      return NextResponse.json({ 
-        isAdmin: false, 
-        debug: { error: 'No user', user: null, adminEmail: process.env.ADMIN_EMAIL }
-      })
+    if (error || !user) {
+      return NextResponse.json({ isAdmin: false })
     }
 
     const adminEmail = process.env.ADMIN_EMAIL
     const isAdmin = user.email === adminEmail
 
-    return NextResponse.json({ 
-      isAdmin,
-      debug: { 
-        userEmail: user.email, 
-        adminEmail, 
-        match: user.email === adminEmail 
-      }
-    })
+    return NextResponse.json({ isAdmin })
   } catch (error) {
     console.error('Admin check error:', error)
     return NextResponse.json({ 

@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
+import FloatingActionButtons from '@/components/FloatingActionButtons'
 
 interface Props {
   children: ReactNode
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider messages={messages} locale={locale}>
       <Navbar />
       {children}
+      <FloatingActionButtons />
     </NextIntlClientProvider>
   )
 }

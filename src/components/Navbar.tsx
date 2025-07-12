@@ -5,8 +5,6 @@ import { useTranslations, useLocale } from 'next-intl'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
-import LanguageSwitcher from './LanguageSwitcher'
-import ThemeSwitcher from './ThemeSwitcher'
 import { PencilIcon } from '@heroicons/react/24/solid'
 
 export default function Navbar() {
@@ -97,8 +95,6 @@ export default function Navbar() {
                 <span>{t('writePost')}</span>
               </Link>
             )}
-            <LanguageSwitcher />
-            <ThemeSwitcher />
             {user && (
               <button
                 onClick={async () => {
