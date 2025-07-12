@@ -11,11 +11,13 @@ export default function FloatingActionButtons() {
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [mounted, setMounted] = useState(false)
   const [showThemeDropdown, setShowThemeDropdown] = useState(false)
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   const pathname = usePathname()
   const locale = useLocale()
   const themeDropdownRef = useRef<HTMLDivElement>(null)
+  const languageDropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -27,6 +29,9 @@ export default function FloatingActionButtons() {
     const handleClickOutside = (event: MouseEvent) => {
       if (themeDropdownRef.current && !themeDropdownRef.current.contains(event.target as Node)) {
         setShowThemeDropdown(false)
+      }
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        setShowLanguageDropdown(false)
       }
     }
 
@@ -71,6 +76,11 @@ export default function FloatingActionButtons() {
     { value: 'system', label: 'System', icon: ComputerDesktopIcon }
   ]
 
+  const languageOptions = [
+    { value: 'ko', label: '한국어', code: 'KO' },
+    { value: 'en', label: 'English', code: 'EN' }
+  ]
+
   return (
     <div className="fixed bottom-6 right-6 flex flex-col space-y-3 z-50">
       {/* Scroll to Top Button */}
@@ -87,14 +97,39 @@ export default function FloatingActionButtons() {
         <ChevronUpIcon className="w-6 h-6" />
       </button>
 
-      {/* Language Toggle Button */}
-      <button
-        onClick={toggleLanguage}
-        className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center"
-        aria-label={`Switch to ${locale === 'ko' ? 'English' : '한국어'}`}
-      >
-        <LanguageIcon className="w-6 h-6" />
-      </button>
+      {/* Language Dropdown Button */}
+      <div className="relative" ref={languageDropdownRef}>
+        <button
+          onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
+          className="w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out flex items-center justify-center"
+          aria-label={`Change language (current: ${locale.toUpperCase()})`}
+        >
+          <span className="text-xs font-bold">{locale.toUpperCase()}</span>
+        </button>
+
+        {/* Language Dropdown */}
+        {showLanguageDropdown && (
+          <div className="absolute bottom-14 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-xl border dark:border-gray-700 py-2 min-w-[120px] animate-fade-in">
+            {languageOptions.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => {
+                  const newPath = pathname.replace(`/${locale}`, `/${option.value}`)
+                  router.push(newPath)
+                  setShowLanguageDropdown(false)
+                }}
+                className={`
+                  w-full px-4 py-2 text-left flex items-center space-x-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors
+                  ${locale === option.value ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}
+                `}
+              >
+                <span className="text-xs font-bold w-6">{option.code}</span>
+                <span className="text-sm">{option.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Theme Dropdown Button */}
       <div className="relative" ref={themeDropdownRef}>
